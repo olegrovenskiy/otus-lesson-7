@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -9,15 +10,48 @@ namespace WebApi.Controllers
     public class CustomerController : Controller
     {
         [HttpGet("{id:long}")]   
-        public Task<Customer> GetCustomerAsync([FromRoute] long id)
+        public IActionResult GetCustomer([FromRoute] long id)
         {
-            throw new NotImplementedException();
+            using (CustomerContext db = new CustomerContext())
+            {
+
+                var found = db.Customers.Find(id);
+                if (found == null)
+                {
+                    return NotFound();
+                }
+
+                else
+                    return Ok(found);
+
+
+             }
         }
 
         [HttpPost("")]   
-        public Task<long> CreateCustomerAsync([FromBody] Customer customer)
+        public IActionResult CreateCustomer([FromBody] Customer customer)
         {
-            throw new NotImplementedException();
+
+            using (CustomerContext db = new CustomerContext())
+            {
+              Console.WriteLine(customer.Firstname);
+
+                var item = db.Customers.Find(customer.Id);
+
+                if (item == null)
+                {
+
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+
+                    return Ok(CreatedAtAction(nameof(CreateCustomer), new { id = customer.Id }, customer));
+                }
+
+                else
+                    return Conflict();
+
+            }
+
         }
     }
 }
