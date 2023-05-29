@@ -27,15 +27,10 @@ namespace WebClient
 
 
                 // и отображает его данные по пользователю;
-
+                Console.WriteLine("Пользователь с запрошенным ID");
                 Console.WriteLine(response.StatusCode + "   " + result);
 
             };
-
-
-
-            //throw new NotImplementedException();
-
 
             // Генерирует случайным образом данные для создания нового "Клиента" на сервере;
 
@@ -76,51 +71,39 @@ namespace WebClient
                 // Appending the letter to string.
                 LastNameRandom = LastNameRandom + letter;
             }
-
+            Console.WriteLine("Создан случайный Пользователь");
             Console.WriteLine("Random ID   " + IdRandom);
             Console.WriteLine("Random FirstName  " + FirstNameRandom);
             Console.WriteLine("Random LastName  " + LastNameRandom);
 
-
             Customer NewRandomCustomer = new Customer { Id = IdRandom, Firstname = FirstNameRandom, Lastname = LastNameRandom };
-
-
-            ///////////////
 
             using (var client = new HttpClient())
             {
 
-                // запрашивает его с сервера
+                // Отправляет данные, созданные в пункте 2.2., на сервер;
 
                 var response = client.PostAsJsonAsync("https://localhost:5001/customers/", NewRandomCustomer).Result;
 
-                var result = response.Content.ReadAsStringAsync().Result;
+                //var result = response.Content.ReadAsStringAsync().Result;
+
+                // По полученному ID от сервера запросить созданного пользователя с сервера 
+                var responseGet = client.GetAsync("https://localhost:5001/customers/" + IdRandom).Result;
+
+                var result = responseGet.Content.ReadAsStringAsync().Result;
 
 
-                // и отображает его данные по пользователю;
 
+                // и вывести на экран.
+                Console.WriteLine("Был создан пользователь");
                 Console.WriteLine(response.StatusCode + "   " + result);
 
             };
 
-
-
-
-
-
-
-            //////////////////
-
             Console.ReadKey();
 
-
         }
 
-
-        private static CustomerCreateRequest RandomCustomer()
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }

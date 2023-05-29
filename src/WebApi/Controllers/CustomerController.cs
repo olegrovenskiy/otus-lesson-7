@@ -44,6 +44,8 @@ namespace WebApi.Controllers
                     db.Customers.Add(customer);
                     db.SaveChanges();
 
+                  //  return CreatedAtAction(nameof(CreateCustomer), new { id = customer.Id }, customer);
+
                     return Ok(CreatedAtAction(nameof(CreateCustomer), new { id = customer.Id }, customer));
                 }
 
