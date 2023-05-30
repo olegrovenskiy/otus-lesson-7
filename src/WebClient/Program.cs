@@ -13,8 +13,8 @@ namespace WebClient
             // Принимает с консоли ID "Клиента"
 
             Console.WriteLine("Введите Id");
-            int Id;
-            bool parce = int.TryParse(Console.ReadLine(), out Id);
+
+            _ = int.TryParse(Console.ReadLine(), out int Id);
 
             using (var client = new HttpClient())
             {
@@ -34,10 +34,9 @@ namespace WebClient
 
             // Генерирует случайным образом данные для создания нового "Клиента" на сервере;
 
-            Random rand = new Random();
+            Random rand = new ();
 
             int IdRandom = rand.Next(1, 100);
-
             int Namelen = rand.Next(3, 7);
             string FirstNameRandom = "";
 
@@ -52,7 +51,7 @@ namespace WebClient
                 char letter = Convert.ToChar(randValue + 65);
 
                 // Appending the letter to string.
-               FirstNameRandom = FirstNameRandom + letter;
+               FirstNameRandom += letter;
             }
 
             int Lastlen = rand.Next(5, 9);
@@ -69,14 +68,14 @@ namespace WebClient
                 char letter = Convert.ToChar(randValue + 65);
 
                 // Appending the letter to string.
-                LastNameRandom = LastNameRandom + letter;
+                LastNameRandom += letter;
             }
             Console.WriteLine("Создан случайный Пользователь");
             Console.WriteLine("Random ID   " + IdRandom);
             Console.WriteLine("Random FirstName  " + FirstNameRandom);
             Console.WriteLine("Random LastName  " + LastNameRandom);
 
-            Customer NewRandomCustomer = new Customer { Id = IdRandom, Firstname = FirstNameRandom, Lastname = LastNameRandom };
+            Customer NewRandomCustomer = new () { Id = IdRandom, Firstname = FirstNameRandom, Lastname = LastNameRandom };
 
             using (var client = new HttpClient())
             {
@@ -103,7 +102,5 @@ namespace WebClient
             Console.ReadKey();
 
         }
-
     }
-
 }

@@ -17,13 +17,11 @@ namespace WebApi.Controllers
 
                 var found = db.Customers.Find(id);
                 if (found == null)
-                {
-                    return NotFound();
-                }
+                     return NotFound();
+                
 
                 else
                     return Ok(found);
-
 
              }
         }
@@ -34,7 +32,6 @@ namespace WebApi.Controllers
 
             using (CustomerContext db = new CustomerContext())
             {
-              Console.WriteLine(customer.Firstname);
 
                 var item = db.Customers.Find(customer.Id);
 
@@ -53,7 +50,6 @@ namespace WebApi.Controllers
                     return Conflict();
 
             }
-
         }
     }
 }
