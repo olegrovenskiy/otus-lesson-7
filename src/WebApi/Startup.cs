@@ -19,6 +19,7 @@ namespace WebApi
         {
             services.AddControllers();
             services.AddSwaggerGen();
+  
 
         }
 
@@ -29,6 +30,8 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+           
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
